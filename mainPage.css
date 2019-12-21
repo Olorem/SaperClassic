@@ -1,0 +1,59 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	height: 100vh;
+	width: 100vw;
+
+}
+.sizesInp{
+	margin-left: 40vw;
+	margin-top: 5vh;
+}
+
+.sizesInp input{
+	height: 40px;
+	width: 200px;
+	font-size: 20px;
+}
+
+.wrp {
+	height: 320px;
+	width: 320px;
+}
+
+.mtrx {
+	border: 0px solid #0088ff;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.cell {
+	box-sizing: border-box;
+	float: left;
+	text-align: center;
+	background: #aaa;
+}
+
+.open {
+	border: 0.025px solid #777;
+}
+
+.closed {
+	border-left: 3px solid #ccc;
+	border-top: 3px solid #ccc;
+	border-right: 3px solid #666;
+	border-bottom: 3px solid #666;
+	background: #aaa;
+}
+
+.closed:hover {
+	border-left: 3px solid #bbb;
+	border-top: 3px solid #bbb;
+	border-right: 3px solid #555;
+	border-bottom: 3px solid #555;
+	background: #999;
+}

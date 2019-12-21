@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Saper main page</title>
+	<link rel="stylesheet" type="text/css" href="mainPage.css">
+	<meta charset="utf-8">
+</head>
+<body>
+	<!-- 
+	<div class="sizesInp">
+		<input type="text" name="size" id="numbers" autofocus="1"> <br>
+		<button class="btn">Start</button>
+	</div>
+	-->
+
+
+	<script type="text/javascript">
+		;//document.querySelector('.sizesInp .btn').onclick = () => {
+		
+
+		///  Global variables  ///
+		
+		var n ,
+			matrix  = [],
+			_Node   = [],
+			_Opened = 0,
+			bombs   = 0;
+
+
+
+
+		///     Main  	  ///
+
+		window.onload = () => {
+			// var matrixSize = document.querySelector('.sizesInp input').value;
+			// var matrixSize = 16;
+			n = 16;
+			drawMatrix();
+
+			spawnBombs();
+
+			countBombs();
+
+		};
+
+
+		///  Functions  ///
+
+		function drawMatrix() {
+			document.body.innerHTML = "";
+			var mtrx = document.createElement('div');
+			var wrp = document.createElement('div');
+				mtrx.classList.add('mtrx');
+				wrp.classList.add('wrp');
+			wrp.appendChild(mtrx);
+			document.body.appendChild(wrp);
+			
+			var mtrx = document.getElementsByClassName('mtrx')[0];
+
+			for(let i = 0; i < n; i++){
+				for(let j = 0; j < n; j++){
+					let cell = document.createElement('div');
+					cell.classList.add('cell');
+					cell.classList.add('closed');
+					cell.style.width  = '20px';
+					cell.style.height = '20px';
+					cell.id = i*n + j;
+					cell.status = 0; // 0 - closed, 1 - open
+					cell.value  = 0; // 0-8 - values, -1 - bomb
+
+					cell.show = function() {
+						this.classList.remove('closed');
+						this.classList.add('open');
+						if(!this.status) _Opened ++;
+						this.status = 1;
+
+						switch(this.value){
+							case -1: this.innerHTML = '♣'; break
+							case  0: this.innerHTML = ' '; break
+							default: this.innerHTML = this.value; break
+						}
+					};
+					cell.onclick = function(){
+
+						this.show();
+		
+						if (this.value == -1) { 
+							_Node.forEach(function(cell) {
+								cell.show();
+								cell.onclick = null;
+							});
+							console.log('Game Over');
+							mtrx.onmouseup = function() {
+							 	window.location.reload();
+							}
+							return 0;
+						}
+
+						if(n*n - _Opened == bombs){
+							_Node.forEach(function(cell) {
+								cell.show();
+								cell.onclick = null;
+							});
+							alert('You Win!');
+							mtrx.onmouseup = function() {
+							 	window.location.reload();
+							}
+							return 0;
+						}
+
+						if (this.value == 0) {
+							if(+this.id % n !== 0) {
+							if(_Node[+this.id     - 1] && !_Node[+this.id     - 1].status) _Node[+this.id     - 1].click();
+							if(_Node[+this.id - n - 1] && !_Node[+this.id - n - 1].status) _Node[+this.id - n - 1].click();
+							if(_Node[+this.id + n - 1] && !_Node[+this.id + n - 1].status) _Node[+this.id + n - 1].click(); }
+							if(+this.id % n !== n - 1){
+							if(_Node[+this.id     + 1] && !_Node[+this.id     + 1].status) _Node[+this.id     + 1].click();
+							if(_Node[+this.id - n + 1] && !_Node[+this.id - n + 1].status) _Node[+this.id - n + 1].click();
+							if(_Node[+this.id + n + 1] && !_Node[+this.id + n + 1].status) _Node[+this.id + n + 1].click(); }
+							if(_Node[+this.id - n    ] && !_Node[+this.id - n    ].status) _Node[+this.id - n    ].click();
+							if(_Node[+this.id + n    ] && !_Node[+this.id + n    ].status) _Node[+this.id + n    ].click();
+						}
+
+					};
+
+					cell.count = function(){
+						if(this.value == 0){
+							if(+this.id % n !== 0){
+								if(_Node[+this.id     - 1] && _Node[+this.id     - 1].value == -1) this.value++;
+								if(_Node[+this.id - n - 1] && _Node[+this.id - n - 1].value == -1) this.value++;
+								if(_Node[+this.id + n - 1] && _Node[+this.id + n - 1].value == -1) this.value++; }
+
+							if(+this.id % n !== n - 1){
+								if(_Node[+this.id     + 1] && _Node[+this.id     + 1].value == -1) this.value++;
+								if(_Node[+this.id - n + 1] && _Node[+this.id - n + 1].value == -1) this.value++;
+								if(_Node[+this.id + n + 1] && _Node[+this.id + n + 1].value == -1) this.value++; }
+
+								if(_Node[+this.id - n    ] && _Node[+this.id - n    ].value == -1) this.value++;
+								if(_Node[+this.id + n    ] && _Node[+this.id + n    ].value == -1) this.value++;
+						} else {
+							//
+						}
+
+					};
+					mtrx.appendChild(cell);
+				};
+			}
+			_Node = document.querySelectorAll('.mtrx .cell');
+			//    	   Решить насчет размеров
+		};
+
+
+
+
+
+
+		function spawnBombs() {
+			// Количесво бомб будет зависеть от сложности
+			bombs = 32;
+
+			for (let i = 0; i < bombs; i++) {
+				// Для каждой бомбы выбираем место так, чтобы оно не повторялось у других бомб
+				do {
+					var place = Math.floor( Math.random()*n*n );
+				} while(_Node[place].value == -1);
+
+				_Node[place].value = -1;
+
+			}
+		};
+
+
+
+		function countBombs() {
+			// Можно было бы сделать это еще на этапе расстановки бомб но...
+			for (let i = 0; i < n; i++) {
+				for(let j = 0; j < n; j++){
+					_Node[i*n + j].count();
+				};
+			};
+		};
+
+
+		/// Classes ///			
+
+			
+
+			
+
+	</script>
+
+</body>
+</html>
