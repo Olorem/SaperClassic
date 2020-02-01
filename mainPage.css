@@ -6,7 +6,7 @@
 body{
 	height: 100vh;
 	width: 100vw;
-
+	font:  15px sans-serif;
 }
 .sizesInp{
 	margin-left: 40vw;
@@ -39,7 +39,8 @@ body{
 }
 
 .open {
-	border: 0.025px solid #777;
+	border-bottom: 0.5px solid #777;
+	border-right: 0.5px solid #777;
 }
 
 .closed {
@@ -48,6 +49,7 @@ body{
 	border-right: 3px solid #666;
 	border-bottom: 3px solid #666;
 	background: #aaa;
+	padding-bottom: 1.5px;
 }
 
 .closed:hover {
