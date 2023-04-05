@@ -17,7 +17,7 @@
 	<script type="text/javascript">
 		;//document.querySelector('.sizesInp .btn').onclick = () => {
 		
-//// ALPHA TEST. slow as shit// ALPHA TEST. slow as shit// ALPHA TEST. slow as shit// ALPHA TEST. slow as shit
+//// ALPHA TEST
 		
 
 		///  Global variables  ///
@@ -61,11 +61,11 @@
 			var mtrx = document.getElementsByClassName('mtrx')[0];
 			mtrx.style.userSelect = "none";
 			document.addEventListener( "contextmenu", function(e) {
-			let elem = e.path[1].className;
+			let elem = e.composedPath()[1].className;
 			if(elem == 'mtrx'){
 				//console.log(e);
 				event.preventDefault();
-				let targ = e.path[0];
+				let targ = e.composedPath()[0];
 				if(targ.className == "cell closed"){
 					if(targ.innerHTML != "P")
 						targ.innerHTML = "P";
@@ -150,7 +150,7 @@
 							if(_Node[+this.id + n    ] && !_Node[+this.id + n    ].status) _Node[+this.id + n    ].click();
 						}
 
-						// ALPHA TEST slow as shit
+						// ALPHA TEST 
 
 						if(this.value > 0 && e.isTrusted == true){
 							// if(this.value - flags == 0) openClosedNeighbours();
